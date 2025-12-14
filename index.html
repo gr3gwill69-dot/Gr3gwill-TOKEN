@@ -1,0 +1,189 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PTC Airdrop</title>  <!-- Inline CSS -->  <style>
+    :root {
+      --bg: #0b0f1a;
+      --card: #12172a;
+      --primary: #f5c542;
+      --text: #e6e6eb;
+      --muted: #9aa0b3;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: radial-gradient(circle at top, #141b3d, var(--bg));
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      padding: 80px 20px 60px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, #fff, var(--primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    header p {
+      max-width: 600px;
+      margin: 0 auto 30px;
+      color: var(--muted);
+      font-size: 1.1rem;
+    }
+
+    .cta {
+      display: inline-block;
+      padding: 14px 30px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--primary), #ff9f1c);
+      color: #000;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(245, 197, 66, 0.3);
+    }
+
+    section {
+      padding: 60px 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, var(--card), #0f1426);
+      border-radius: 18px;
+      padding: 30px;
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 1.3rem;
+      color: var(--primary);
+    }
+
+    .card p {
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .steps li {
+      margin-bottom: 10px;
+      color: var(--muted);
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .badge {
+      display: inline-block;
+      margin-bottom: 20px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(245,197,66,0.15);
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    .form {
+      margin-top: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .form input {
+      flex: 1 1 260px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: #0c1020;
+      color: var(--text);
+    }
+
+    .form button {
+      padding: 14px 22px;
+      border-radius: 12px;
+      border: none;
+      background: var(--primary);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .warning {
+      margin-top: 15px;
+      font-size: 0.85rem;
+      color: #f5a9a9;
+    }
+  </style></head>
+<body>  <header>
+    <span class="badge">Official Airdrop</span>
+    <h1>PTC Token Airdrop</h1>
+    <p>Claim your free PTC tokens for early supporters. Limited supply. Fair distribution. No private keys required.</p>
+    <a href="#claim" class="cta">Join the Airdrop</a>
+  </header>  <section>
+    <div class="grid">
+      <div class="card">
+        <h3>💎 What is PTC?</h3>
+        <p>PTC is a next-generation crypto project focused on utility, transparency, and community-driven growth.</p>
+      </div>
+      <div class="card">
+        <h3>🎁 Airdrop Details</h3>
+        <p>Eligible users will receive PTC tokens directly to their wallet after verification.</p>
+      </div>
+      <div class="card">
+        <h3>🔐 100% Secure</h3>
+        <p>We will never ask for your private key or recovery phrase. Wallet connect only.</p>
+      </div>
+    </div>
+  </section>  <section id="claim">
+    <div class="card">
+      <h3>🚀 How to Participate</h3>
+      <ol class="steps">
+        <li>Connect your wallet (Trust Wallet / MetaMask)</li>
+        <li>Enter your wallet address</li>
+        <li>Complete basic verification</li>
+        <li>Receive your PTC tokens</li>
+      </ol><form class="form" onsubmit="event.preventDefault(); handleSubmit();">
+    <input type="text" placeholder="Your wallet address" required />
+    <button type="submit">Submit</button>
+  </form>
+  <div class="warning">⚠ We will NEVER ask for your private key or recovery phrase.</div>
+</div>
+
+  </section>  <footer>
+    © 2025 PTC Project · All rights reserved
+  </footer>  <!-- Inline JavaScript -->  <script>
+    function handleSubmit() {
+      alert('Wallet submitted! (Demo only)');
+    }
+  </script></body>
+</html>
