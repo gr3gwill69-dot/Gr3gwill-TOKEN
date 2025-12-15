@@ -1,0 +1,84 @@
+:root {
+    --bg: #0b0b0b;
+    --card: #111111;
+    --text: #f2f2f2;
+    --muted: #bdbdbd;
+    --accent: #d19a1a; /* dark yellowish orange */
+    --accent-dark: #a87400;
+    --border: #1e1e1e;
+  }
+  * { box-sizing: border-box; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; }
+  body {
+    margin: 0; background: radial-gradient(1200px 600px at 50% -10%, #1a1a1a, var(--bg)); color: var(--text);
+    min-height: 100vh; display: grid; place-items: center; padding: 24px;
+  }
+  .card {
+    width: 100%; max-width: 520px; background: linear-gradient(180deg, #141414, var(--card));
+    border: 1px solid var(--border); border-radius: 16px; padding: 24px; box-shadow: 0 10px 40px rgba(0,0,0,.5);
+  }
+  h1 { margin: 0 0 8px; font-size: 1.6rem; letter-spacing: .2px; }
+  .badge { display: inline-block; padding: 6px 10px; border-radius: 999px; background: #1b1b1b; color: var(--accent); border: 1px solid var(--border); font-size: .8rem; }
+  p { color: var(--muted); line-height: 1.6; }
+  .highlight { color: #000; background: #f7f7f7; padding: 10px 12px; border-radius: 10px; margin: 12px 0; }
+  .actions { display: grid; gap: 12px; margin-top: 16px; }
+  button {
+    width: 100%; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--border);
+    background: linear-gradient(180deg, var(--accent), var(--accent-dark)); color: #1a1200; font-weight: 700;
+    cursor: pointer; transition: transform .05s ease, filter .15s ease; box-shadow: 0 6px 18px rgba(209,154,26,.35);
+  }
+  button.secondary {
+    background: #151515; color: var(--text); box-shadow: none;
+  }
+  button:active { transform: translateY(1px); filter: brightness(.95); }
+  .hidden { display: none; }
+  .input-wrap { margin-top: 12px; }
+  label { display: block; margin-bottom: 6px; font-size: .9rem; color: var(--muted); }
+  input {
+    width: 100%; padding: 14px; border-radius: 12px; border: 1px solid var(--border);
+    background: #0f0f0f; color: var(--text);
+  }
+  .progress {
+    margin: 10px 0 6px; height: 10px; border-radius: 999px; background: #0f0f0f; border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .progress > span { display: block; height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), #f0c35a); }
+  .terms {
+    color: #000; background: #f1f1f1; padding: 12px; border-radius: 10px; font-size: .85rem;
+  }
+  .modal {
+    position: fixed; inset: 0; background: rgba(0,0,0,.7); display: grid; place-items: center; padding: 16px;
+  }
+  .modal-card {
+    width: 100%; max-width: 420px; background: #ffffff; color: #000000; border-radius: 16px; padding: 20px;
+  }
+  .modal-card h3 { margin-top: 0; }
+  .modal-actions { display: grid; gap: 10px; margin-top: 12px; }
+  .container {
+    background: #151515;
+    max-width: 480px;
+    width: 90%;
+    padding: 30px 25px;
+    border-radius: 15px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+    text-align: center;
+    position: relative;
+  }
+  
+  /* LOGO CIRCLE WITH TEXT "Gr3T" */
+  .logo-circle {
+    width: 85px;
+    height: 85px;
+    background: #d49a00; /* yellowish-orange */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 25px auto;
+    box-shadow: 0 0 25px #d49a00aa, 0 0 50px #d49a00aa inset;
+    font-size: 32px;
+    font-weight: bold;
+    color: #000; /* text inside circle */
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    text-align: center;
+    user-select: none;
+  }
