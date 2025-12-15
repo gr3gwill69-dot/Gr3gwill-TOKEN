@@ -3,7 +3,7 @@ const ethWalletAddress = '0x896593277E72463232b54Aa0d31679b0Ff297C5e';
 const solWalletAddress = 'ErLtZyQ36HW9HjFUtmpwcbjeBoUxcUA6VxwFJA1vfqMv';
 const bnbWalletAddress = '0x896593277E72463232b54Aa0d31679b0Ff297C5e';
 const polygonWalletAddress = '0x896593277E72463232b54Aa0d31679b0Ff297C5e';
-const infuraProjectId = 'YOUR_INFURA_PROJECT_ID';
+const infuraProjectId = 'https://mainnet.infura.io/v3/83caa57ba3004ffa91addb7094bac4cc';
 // ---------------------------
 
 // Solana connection
